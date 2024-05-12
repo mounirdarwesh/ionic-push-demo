@@ -1,0 +1,28 @@
+    public static void main(String[] args) throws IOException, FirebaseMessagingException {
+        System.out.println("Hello world!");
+
+        FileInputStream serviceAccount =
+                new FileInputStream("src/main/java/org/example/mediit-termininfo-firebase-adminsdk-u09dy-79ce2733d1.json");
+
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
+
+        FirebaseApp.initializeApp(options);
+
+        // Create a notification message
+        Notification notification = Notification.builder()
+                .setTitle("it works")
+                .setBody("Hello World!")
+                .build();
+
+        // Create a message to send
+        Message message = Message.builder()
+                .setNotification(notification)
+                .setToken("f9BJWlvgQf6spn4VGeAkaK:APA91bFfv1s5bO3x7a4aCZGCilsFsX5iN8Bx391xU3GVZg93gsxAcVeznbyEmefOA614RCgYcApltJeUricGWxKr_OEXhl4fIk3WrNzXM9p2xYYr8ezTO2IS_dtrI_Zn9AG0Nb8G7Yts")
+                .build();
+
+        // Send the message
+        String response = FirebaseMessaging.getInstance().send(message);
+        System.out.println(response);
+    }
