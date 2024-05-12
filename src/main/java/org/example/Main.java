@@ -6,12 +6,11 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.*;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class Main {
 
     public static void initializeFirebaseApp() throws Exception {
-        FileInputStream serviceAccount = new FileInputStream("src/main/java/org/example/mediit-termininfo-firebase-adminsdk-u09dy-79ce2733d1.json");
+        FileInputStream serviceAccount = new FileInputStream("src/main/resources/mediit-termininfo-firebase-adminsdk-u09dy-79ce2733d1.json");
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -25,9 +24,9 @@ public class Main {
         AndroidConfig androidConfig = AndroidConfig.builder()
                 .setPriority(AndroidConfig.Priority.HIGH) // Set high priority for heads-up notification
                 .setNotification(AndroidNotification.builder()
-                        .setChannelId("test_channel") // Ensure this channel ID is created in your Android app
-                        .setTitle("Optional: Override the general title") // Optionally override the title
-                        .setBody("Optional: Override the general body") // Optionally override the body
+                        .setChannelId("mediIT-termininfo") // Ensure this channel ID is created in your Android app
+//                        .setTitle("Optional: Override the general title") // Optionally override the title
+//                        .setBody("Optional: Override the general body") // Optionally override the body
                         .build())
                 .build();
 
@@ -39,7 +38,7 @@ public class Main {
 
         // Create and build the message with specified AndroidConfig
         Message message = Message.builder()
-//                .setNotification(notification)
+                .setNotification(notification)
                 .setAndroidConfig(androidConfig)
                 .setToken(token) // Token should be dynamically set based on the device
                 .build();
@@ -50,9 +49,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        String token = "f9BJWlvgQf6spn4VGeAkaK:APA91bFfv1s5bO3x7a4aCZGCilsFsX5iN8Bx391xU3GVZg93gsxAcVeznbyEmefOA614RCgYcApltJeUricGWxKr_OEXhl4fIk3WrNzXM9p2xYYr8ezTO2IS_dtrI_Zn9AG0Nb8G7Yts";
         try {
             initializeFirebaseApp();
-            sendPushNotification("f9BJWlvgQf6spn4VGeAkaK:APA91bFfv1s5bO3x7a4aCZGCilsFsX5iN8Bx391xU3GVZg93gsxAcVeznbyEmefOA614RCgYcApltJeUricGWxKr_OEXhl4fIk3WrNzXM9p2xYYr8ezTO2IS_dtrI_Zn9AG0Nb8G7Yts"); // Replace with the actual device token
+            sendPushNotification(token); // Replace with the actual device token
         } catch (Exception e) {
             e.printStackTrace();
         }
